@@ -1,14 +1,12 @@
 import logging
-import time
-import re
-
 import pdb
-
+import re
+import time
 
 from transmission_rpc import Client, TransmissionError
 from transmission_rpc.error import (
-    TransmissionConnectError,
     TransmissionAuthError,
+    TransmissionConnectError,
 )
 
 # https://transmission-rpc.readthedocs.io/en/stable/

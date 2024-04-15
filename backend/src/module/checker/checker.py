@@ -58,7 +58,11 @@ class Checker:
             )
             response = requests.get(url, timeout=2)
             # if settings.downloader.type in response.text.lower():
-            if "qbittorrent" in response.text.lower() or "vuetorrent" in response.text.lower() or response.status_code == 401:
+            if (
+                "qbittorrent" in response.text.lower()
+                or "vuetorrent" in response.text.lower()
+                or response.status_code == 401
+            ):
                 with DownloadClient() as client:
                     if client.authed:
                         return True

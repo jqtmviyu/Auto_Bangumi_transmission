@@ -111,7 +111,7 @@ class DownloadClient(TorrentPath):
     def rename_torrent_file(self, _hashOrId, old_path, new_path) -> bool:
         logger.info(f"{old_path} >> {new_path}")
         return self.client.torrents_rename_file(
-          _hashOrId, old_path=old_path, new_path=new_path
+            _hashOrId, old_path=old_path, new_path=new_path
         )
 
     def delete_torrent(self, hashOrId):
@@ -124,7 +124,9 @@ class DownloadClient(TorrentPath):
         with RequestContent() as req:
             if isinstance(torrent, list):
                 if len(torrent) == 0:
-                    logger.debug(f"[Downloader] No torrent found: {bangumi.official_title}")
+                    logger.debug(
+                        f"[Downloader] No torrent found: {bangumi.official_title}"
+                    )
                     return False
                 if "magnet" in torrent[0].url:
                     torrent_url = [t.url for t in torrent]

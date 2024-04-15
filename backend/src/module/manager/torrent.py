@@ -1,10 +1,10 @@
 import logging
 
+from module.conf import settings
 from module.database import Database
 from module.downloader import DownloadClient
 from module.models import Bangumi, BangumiUpdate, ResponseModel
 from module.parser import TitleParser
-from module.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -16,13 +16,16 @@ class TorrentManager(Database):
             torrents = client.get_torrent_info(status_filter=None)
         if settings.downloader.type == "qbittorrent":
             return [
-                torrent.hash for torrent in torrents if torrent.save_path == data.save_path
+                torrent.hash
+                for torrent in torrents
+                if torrent.save_path == data.save_path
             ]
         elif settings.downloader.type == "transmission":
             return [
-                torrent.id for torrent in torrents if torrent.save_path == data.save_path
+                torrent.id
+                for torrent in torrents
+                if torrent.save_path == data.save_path
             ]
-
 
     def delete_torrents(self, data: Bangumi, client: DownloadClient):
         hashOrid_list = self.__match_torrents_list(data)
