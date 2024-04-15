@@ -52,7 +52,10 @@ async def delete_rss(rss_id: int):
         if engine.rss.delete(rss_id):
             return JSONResponse(
                 status_code=200,
-                content={"msg_en": "Delete RSS successfully.", "msg_zh": "删除 RSS 成功。"},
+                content={
+                    "msg_en": "Delete RSS successfully.",
+                    "msg_zh": "删除 RSS 成功。",
+                },
             )
         else:
             return JSONResponse(
@@ -84,7 +87,10 @@ async def disable_rss(rss_id: int):
         if engine.rss.disable(rss_id):
             return JSONResponse(
                 status_code=200,
-                content={"msg_en": "Disable RSS successfully.", "msg_zh": "禁用 RSS 成功。"},
+                content={
+                    "msg_en": "Disable RSS successfully.",
+                    "msg_zh": "禁用 RSS 成功。",
+                },
             )
         else:
             return JSONResponse(
@@ -118,7 +124,10 @@ async def update_rss(
         if engine.rss.update(rss_id, data):
             return JSONResponse(
                 status_code=200,
-                content={"msg_en": "Update RSS successfully.", "msg_zh": "更新 RSS 成功。"},
+                content={
+                    "msg_en": "Update RSS successfully.",
+                    "msg_zh": "更新 RSS 成功。",
+                },
             )
         else:
             return JSONResponse(
@@ -137,7 +146,10 @@ async def refresh_all():
         engine.refresh_rss(client)
         return JSONResponse(
             status_code=200,
-            content={"msg_en": "Refresh all RSS successfully.", "msg_zh": "刷新 RSS 成功。"},
+            content={
+                "msg_en": "Refresh all RSS successfully.",
+                "msg_zh": "刷新 RSS 成功。",
+            },
         )
 
 
@@ -151,7 +163,10 @@ async def refresh_rss(rss_id: int):
         engine.refresh_rss(client, rss_id)
         return JSONResponse(
             status_code=200,
-            content={"msg_en": "Refresh RSS successfully.", "msg_zh": "刷新 RSS 成功。"},
+            content={
+                "msg_en": "Refresh RSS successfully.",
+                "msg_zh": "刷新 RSS 成功。",
+            },
         )
 
 
