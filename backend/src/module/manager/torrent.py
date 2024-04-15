@@ -4,6 +4,7 @@ from module.database import Database
 from module.downloader import DownloadClient
 from module.models import Bangumi, BangumiUpdate, ResponseModel
 from module.parser import TitleParser
+from module.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -13,14 +14,20 @@ class TorrentManager(Database):
     def __match_torrents_list(data: Bangumi | BangumiUpdate) -> list:
         with DownloadClient() as client:
             torrents = client.get_torrent_info(status_filter=None)
-        return [
-            torrent.hash for torrent in torrents if torrent.save_path == data.save_path
-        ]
+        if settings.downloader.type == "qbittorrent":
+            return [
+                torrent.hash for torrent in torrents if torrent.save_path == data.save_path
+            ]
+        elif settings.downloader.type == "transmission":
+            return [
+                torrent.id for torrent in torrents if torrent.save_path == data.save_path
+            ]
+
 
     def delete_torrents(self, data: Bangumi, client: DownloadClient):
-        hash_list = self.__match_torrents_list(data)
-        if hash_list:
-            client.delete_torrent(hash_list)
+        hashOrid_list = self.__match_torrents_list(data)
+        if hashOrid_list:
+            client.delete_torrent(hashOrid_list)
             logger.info(f"Delete rule and torrents for {data.official_title}")
             return ResponseModel(
                 status_code=200,

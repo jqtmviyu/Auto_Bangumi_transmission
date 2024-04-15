@@ -6,7 +6,7 @@ const { t } = useMyI18n();
 const { getSettingGroup } = useConfigStore();
 
 const downloader = getSettingGroup('downloader');
-const downloaderType: DownloaderType = ['qbittorrent'];
+const downloaderType: DownloaderType = ['qbittorrent', 'transmission'];
 
 const items: SettingItem<Downloader>[] = [
   {

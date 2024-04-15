@@ -27,6 +27,10 @@ class DownloadClient(TorrentPath):
             from .client.qb_downloader import QbDownloader
 
             return QbDownloader(host, username, password, ssl)
+        elif type == "transmission":
+            from .client.tr_downloader import TrDownloader
+
+            return TrDownloader(host, username, password, ssl)
         else:
             logger.error(f"[Downloader] Unsupported downloader type: {type}")
             raise Exception(f"Unsupported downloader type: {type}")
@@ -104,14 +108,14 @@ class DownloadClient(TorrentPath):
             status_filter=status_filter, category=category, tag=tag
         )
 
-    def rename_torrent_file(self, _hash, old_path, new_path) -> bool:
+    def rename_torrent_file(self, _hashOrId, old_path, new_path) -> bool:
         logger.info(f"{old_path} >> {new_path}")
         return self.client.torrents_rename_file(
-            torrent_hash=_hash, old_path=old_path, new_path=new_path
+          _hashOrId, old_path=old_path, new_path=new_path
         )
 
-    def delete_torrent(self, hashes):
-        self.client.torrents_delete(hashes)
+    def delete_torrent(self, hashOrId):
+        self.client.torrents_delete(hashOrId)
         logger.info("[Downloader] Remove torrents.")
 
     def add_torrent(self, torrent: Torrent | list, bangumi: Bangumi) -> bool:
@@ -147,8 +151,8 @@ class DownloadClient(TorrentPath):
             logger.debug(f"[Downloader] Torrent added before: {bangumi.official_title}")
             return False
 
-    def move_torrent(self, hashes, location):
-        self.client.move_torrent(hashes=hashes, new_location=location)
+    def move_torrent(self, hashOrId, location):
+        self.client.move_torrent(hashOrId, new_location=location)
 
     # RSS Parts
     def add_rss_feed(self, rss_link, item_path="Mikan_RSS"):
@@ -163,8 +167,8 @@ class DownloadClient(TorrentPath):
     def get_download_rules(self):
         return self.client.get_download_rule()
 
-    def get_torrent_path(self, hashes):
-        return self.client.get_torrent_path(hashes)
+    def get_torrent_path(self, hashOrId):
+        return self.client.get_torrent_path(hashOrId)
 
     def set_category(self, hashes, category):
         self.client.set_category(hashes, category)

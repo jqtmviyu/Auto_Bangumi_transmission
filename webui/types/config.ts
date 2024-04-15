@@ -7,7 +7,7 @@ export interface Config {
     webui_port: number;
   };
   downloader: {
-    type: 'qbittorrent';
+    type: 'qbittorrent' | 'transmission';
     host: string;
     username: string;
     password: string;
@@ -43,7 +43,7 @@ export interface Config {
   };
   notification: {
     enable: boolean;
-    type: 'telegram' | 'server-chan' | 'bark' | 'wecom';
+    type: 'telegram' | 'server-chan' | 'bark' | 'wecom' | 'wecom-robot';
     token: string;
     chat_id: string;
   };
