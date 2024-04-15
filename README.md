@@ -15,6 +15,21 @@
 
 # 项目说明
 
+## 支持 transtransmission, 企业微信群机器人通知
+
+已测试:
+
+* mikan 单个rss订阅
+* 下载完成重命名
+* 下载完成企业微信群机器人通知
+
+设置:
+
+* transtransmission需要开启rpc账号密码功能
+* 企业微信群机器人使用的话只需设置webhookkey
+
+---
+
 <p align="center">
     <img title="AutoBangumi" src="docs/image/preview/window.png" alt="" width=75%>
 </p>
@@ -65,7 +80,7 @@
 
 ***计划开发的功能：***
 
-- Transmission 的支持。
+- [x] Transmission 的支持。
 
 ## Star History
 
