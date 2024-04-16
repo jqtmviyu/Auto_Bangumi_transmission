@@ -56,7 +56,6 @@ class Renamer(DownloadClient):
         method: str,
         season: int,
         _hash: str,
-        _id: int | str,
         **kwargs,
     ):
         ep = self._parser.torrent_parser(
@@ -68,12 +67,8 @@ class Renamer(DownloadClient):
             new_path = self.gen_path(ep, bangumi_name, method=method)
             if media_path != new_path:
                 if new_path not in self.check_pool.keys():
-                    if settings.downloader.type == "qbittorrent":
-                        _hashOrId = _hash
-                    elif settings.downloader.type == "transmission":
-                        _hashOrId = _id
                     if self.rename_torrent_file(
-                        _hashOrId, old_path=media_path, new_path=new_path
+                        _hash=_hash, old_path=media_path, new_path=new_path
                     ):
                         return Notification(
                             official_title=bangumi_name,
@@ -83,10 +78,7 @@ class Renamer(DownloadClient):
         else:
             logger.warning(f"[Renamer] {media_path} parse failed")
             if settings.bangumi_manage.remove_bad_torrent:
-                if settings.downloader.type == "qbittorrent":
-                    self.delete_torrent(_hash)
-                elif settings.downloader.type == "transmission":
-                    self.delete_torrent(_id)
+                self.delete_torrent(hashes=_hash)
         return None
 
     def rename_collection(
@@ -96,7 +88,6 @@ class Renamer(DownloadClient):
         season: int,
         method: str,
         _hash: str,
-        _id: int | str,
         **kwargs,
     ):
         for media_path in media_list:
@@ -107,19 +98,15 @@ class Renamer(DownloadClient):
                 )
                 if ep:
                     new_path = self.gen_path(ep, bangumi_name, method=method)
-                    if settings.downloader.type == "qbittorrent":
-                        _hashOrId = _hash
-                    elif settings.downloader.type == "transmission":
-                        _hashOrId = _id
                     if media_path != new_path:
                         renamed = self.rename_torrent_file(
-                            _hashOrId, old_path=media_path, new_path=new_path
+                            _hash=_hash, old_path=media_path, new_path=new_path
                         )
                         if not renamed:
                             logger.warning(f"[Renamer] {media_path} rename failed")
                             # Delete bad torrent.
                             if settings.bangumi_manage.remove_bad_torrent:
-                                self.delete_torrent(_hashOrId)
+                                self.delete_torrent(_hash)
                                 break
 
     def rename_subtitles(
@@ -144,12 +131,8 @@ class Renamer(DownloadClient):
             if sub:
                 new_path = self.gen_path(sub, bangumi_name, method=method)
                 if subtitle_path != new_path:
-                    if settings.downloader.type == "qbittorrent":
-                        _hashOrId = _hash
-                    elif settings.downloader.type == "transmission":
-                        _hashOrId = _id
                     renamed = self.rename_torrent_file(
-                        _hashOrId, old_path=subtitle_path, new_path=new_path
+                        _hash=_hash, old_path=subtitle_path, new_path=new_path
                     )
                     if not renamed:
                         logger.warning(f"[Renamer] {subtitle_path} rename failed")
@@ -169,7 +152,6 @@ class Renamer(DownloadClient):
                 "method": rename_method,
                 "season": season,
                 "_hash": info.hash,
-                "_id": info.id,
             }
             # Rename single media file
             if len(media_list) == 1:
@@ -185,10 +167,7 @@ class Renamer(DownloadClient):
                 self.rename_collection(media_list=media_list, **kwargs)
                 if len(subtitle_list) > 0:
                     self.rename_subtitles(subtitle_list=subtitle_list, **kwargs)
-                if settings.downloader.type == "qbittorrent":
-                    self.set_category(info.hash, "BangumiCollection")
-                elif settings.downloader.type == "transmission":
-                    self.set_category(info.id, "BangumiCollection")
+                self.set_category(info.hash, "BangumiCollection")
             else:
                 logger.warning(f"[Renamer] {info.name} has no media file")
         logger.debug("[Renamer] Rename process finished.")

@@ -17,17 +17,6 @@ class BaseDownloader(BaseModel):
     path: str
     ssl: bool
 
-
-class QbDownloader(BaseDownloader):
-    type: str = Field("qbittorrent", description="Downloader type")
-    host_: str = Field("172.17.0.1:8080", alias="host", description="Downloader host")
-    username_: str = Field("admin", alias="username", description="Downloader username")
-    password_: str = Field(
-        "adminadmin", alias="password", description="Downloader password"
-    )
-    path: str = Field("/downloads/Bangumi", description="Downloader path")
-    ssl: bool = Field(False, description="Downloader ssl")
-
     @property
     def host(self):
         return expandvars(self.host_)
@@ -39,6 +28,17 @@ class QbDownloader(BaseDownloader):
     @property
     def password(self):
         return expandvars(self.password_)
+
+
+class QbDownloader(BaseDownloader):
+    type: str = Field("qbittorrent", description="Downloader type")
+    host_: str = Field("172.17.0.1:8080", alias="host", description="Downloader host")
+    username_: str = Field("admin", alias="username", description="Downloader username")
+    password_: str = Field(
+        "adminadmin", alias="password", description="Downloader password"
+    )
+    path: str = Field("/downloads/Bangumi", description="Downloader path")
+    ssl: bool = Field(False, description="Downloader ssl")
 
 
 class TrDownloader(BaseDownloader):

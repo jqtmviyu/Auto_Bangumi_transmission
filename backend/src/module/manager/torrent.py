@@ -14,23 +14,14 @@ class TorrentManager(Database):
     def __match_torrents_list(data: Bangumi | BangumiUpdate) -> list:
         with DownloadClient() as client:
             torrents = client.get_torrent_info(status_filter=None)
-        if settings.downloader.type == "qbittorrent":
-            return [
-                torrent.hash
-                for torrent in torrents
-                if torrent.save_path == data.save_path
-            ]
-        elif settings.downloader.type == "transmission":
-            return [
-                torrent.id
-                for torrent in torrents
-                if torrent.save_path == data.save_path
-            ]
+        return [
+            torrent.hash for torrent in torrents if torrent.save_path == data.save_path
+        ]
 
     def delete_torrents(self, data: Bangumi, client: DownloadClient):
-        hashOrid_list = self.__match_torrents_list(data)
-        if hashOrid_list:
-            client.delete_torrent(hashOrid_list)
+        hash_list = self.__match_torrents_list(data)
+        if hash_list:
+            client.delete_torrent(hash_list)
             logger.info(f"Delete rule and torrents for {data.official_title}")
             return ResponseModel(
                 status_code=200,

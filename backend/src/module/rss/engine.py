@@ -129,7 +129,8 @@ class RSSEngine(Database):
                         logger.debug(f"[Engine] Add torrent {torrent.name} to client")
                     torrent.downloaded = True
             # Add all torrents to database
-            self.torrent.add_all(new_torrents)
+            if len(new_torrents) > 0:
+                self.torrent.add_all(new_torrents)
 
     def download_bangumi(self, bangumi: Bangumi):
         with RequestContent() as req:
