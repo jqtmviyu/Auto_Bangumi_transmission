@@ -121,10 +121,13 @@ class RSSEngine(Database):
         logger.debug(f"[Engine] Get {len(rss_items)} RSS items")
         for rss_item in rss_items:
             new_torrents = self.pull_rss(rss_item)
+            # print(f"[Engine] new_torrents ==> {new_torrents}")
             # Get all enabled bangumi data
             for torrent in new_torrents:
                 matched_data = self.match_torrent(torrent)
                 if matched_data:
+                    # print(f"[Engine] torrent ==>  {torrent} ")
+                    # print(f"[Engine] matched_data ==>  {matched_data} ")
                     if client.add_torrent(torrent, matched_data):
                         logger.debug(f"[Engine] Add torrent {torrent.name} to client")
                     torrent.downloaded = True

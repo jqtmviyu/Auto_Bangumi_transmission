@@ -76,7 +76,7 @@
     "rule": {
       "apply": "应用",
       "delete": "删除",
-      "delete_hit": "是否删除本地文件？",
+      "delete_hit": "是否删除已下载视频(不可恢复)？",
       "disable": "禁用",
       "edit_rule": "编辑规则",
       "enable": "启用",

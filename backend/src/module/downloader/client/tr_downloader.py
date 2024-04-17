@@ -108,20 +108,30 @@ class TrDownloader:
                 break
         raise Exception("[TR] Cannot connect to TransmissionServer")
 
-    def add_torrent(self, torrent: str, download_dir: str, labels):
+    def add_torrent(self, torrent, download_dir: str, labels):
+        logger.debug(
+            f"[TR] add torrent: type: {type(torrent)}, download_dir: {download_dir}"
+            f"[TR] add torrent ==>  {torrent}"
+        )
         try:
             resp = self._client.add_torrent(
                 torrent=torrent, download_dir=download_dir, labels=labels, paused=False
             )
-            logger.debug(
-                f"[TR] add torrent: type: {type(torrent)}, download_dir: {download_dir}"
-            )
-            return resp
+            logger.debug(f"[TR] add torrent resp : {resp}")
+            return True
         except TransmissionError:
             logger.debug(f"[TR] add torrent {torrent} error")
-            return False
+            return True
 
     def add_torrents(self, torrent_urls, torrent_files, save_path, category):
+        # print(f"[TR] torrent_urls ==>  {torrent_urls}")
+        # print(f"[TR] torrent_files ==>  {torrent_files}")
+        # print(f"[TR] type ==>  {type(torrent_files)}")
+        # 虽然写的是torrents但是传过来的可能是lsit,也可能是str
+        if isinstance(torrent_urls, str):
+            torrent_urls = [torrent_urls]
+        if isinstance(torrent_files, bytes):
+            torrent_files = [torrent_files]
         try:
             if torrent_urls:
                 for torrent in torrent_urls:
@@ -148,6 +158,7 @@ class TrDownloader:
         ]
         # 返回的是torrent列表,torrent对象里有个 fields 字典
         resp = self._client.get_torrents(arguments=arguments)
+        # logger.debug(f"[TR] torrents resp: {[torrent.fields  for torrent in resp]}")
         return resp
 
     def torrents_info(self, status_filter, category, tag=None):
@@ -158,7 +169,7 @@ class TrDownloader:
             labels = torrent.fields.get("labels", [])
             if (
                 status_filter is None
-                or (status_filter == "completed" and status >= 5)
+                or (status_filter == "completed" and (status >= 5 or status == 0))
                 or (status_filter == "downloading" and status == 4)
                 or (status_filter == "inactive" and status > 3)
             ) and (category is None or category in labels):
@@ -169,7 +180,7 @@ class TrDownloader:
         Filter torrents by status
         Docs: https://github.com/transmission/transmission/blob/main/docs/rpc-spec.md#33-torrent-accessor-torrent-get
         """
-        logger.debug(f"[TR] torrents info: {filtered_results}")
+        # logger.debug(f"[TR] torrents info: {filtered_results}")
         return filtered_results
 
     # todo 单个种子里有多个文件的情况, 该怎么处理
@@ -207,18 +218,20 @@ class TrDownloader:
             self._client.remove_torrent(ids, delete_data=True)
 
     def torrents_rename_file(self, torrent_hash, old_path, new_path) -> bool:
-        # todo 这里目前只处理单个种子单个文件的情况
+        # todo 这里只处理单个种子单个文件的重启命名
         info = self.__get_torrentInfo_with_hash(torrent_hash)
-        logger.debug(f"[TR] rename file info : {info}")
         if info:
+            if info["name"] == new_path:
+                logger.debug("[TR] rename: same Name, neet't work")
+                return True
             try:
                 # todo location是相对于这个种子的, 如果一个种子里有很多文件
                 self._client.rename_torrent_path(
                     info["id"], location=info["name"], name=new_path
                 )
+                logger.debug(f"[TR] rename: {info['name']} >> {new_path}")
                 return True
             except TransmissionError:
-                logger.debug(f"[TR] Error: {info['name']} >> {new_path}")
                 return False
         else:
             logger.debug(f"[TR] Error: cat't find torrent: {torrent_hash}")
@@ -248,7 +261,7 @@ class TrDownloader:
         return {"save_path": "/downloads"}
 
     def add_category(self, category):
-        # todo 初始化时, 添加 BangumiCollection 分类
+        # tr不需要单独添加BangumiCollection分类
         pass
 
     def get_torrent_path(self, _hash):

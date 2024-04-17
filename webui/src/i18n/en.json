@@ -76,7 +76,7 @@
     "rule": {
       "apply": "Apply",
       "delete": "Delete",
-      "delete_hit": "Delete Local File?",
+      "delete_hit": "Delete Downloaded Videos(cat't restore)?",
       "disable": "Disable",
       "edit_rule": "Edit Rule",
       "enable": "Enable",
