@@ -15,7 +15,7 @@
 
 # 项目说明
 
-## 支持 transtransmission, 企业微信群机器人通知
+## 支持 transmission, 企业微信群机器人通知
 
 已测试:
 
@@ -25,7 +25,7 @@
 
 设置:
 
-* transtransmission需要开启rpc账号密码功能
+* transmission需要开启rpc账号密码功能
 * 企业微信群机器人使用的话只需设置webhookkey
 
 ---
