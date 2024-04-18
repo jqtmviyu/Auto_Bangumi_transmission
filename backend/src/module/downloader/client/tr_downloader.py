@@ -111,7 +111,7 @@ class TrDownloader:
     def add_torrent(self, torrent, download_dir: str, labels):
         logger.debug(
             f"[TR] add torrent: type: {type(torrent)}, download_dir: {download_dir}"
-            f"[TR] add torrent ==>  {torrent}"
+            # f"[TR] add torrent ==>  {torrent}"
         )
         try:
             resp = self._client.add_torrent(

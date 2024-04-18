@@ -29,6 +29,6 @@ def mikan_parser(homepage: str):
 
 if __name__ == "__main__":
     homepage = (
-        "https://mikanani.me/Home/Episode/c89b3c6f0c1c0567a618f5288b853823c87a9862"
+        "https://mikanime.tv/Home/Episode/c89b3c6f0c1c0567a618f5288b853823c87a9862"
     )
     print(mikan_parser(homepage))
