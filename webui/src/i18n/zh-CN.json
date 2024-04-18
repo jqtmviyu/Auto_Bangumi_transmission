@@ -74,7 +74,7 @@
   },
   "homepage": {
     "rule": {
-      "apply": "应用",
+      "update": "更新",
       "delete": "删除",
       "delete_hit": "是否删除已下载视频(不可恢复)？",
       "disable": "禁用",

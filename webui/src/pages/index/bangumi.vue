@@ -4,7 +4,7 @@ definePage({
 });
 
 const { bangumi, editRule } = storeToRefs(useBangumiStore());
-const { getAll, updateRule, enableRule, openEditPopup, ruleManage } =
+const { getAll, updateRule, enableRule, disableRule, deleteRule, openEditPopup } =
   useBangumiStore();
 
 onActivated(() => {
@@ -30,10 +30,11 @@ onActivated(() => {
         v-model:show="editRule.show"
         v-model:rule="editRule.item"
         @enable="(id) => enableRule(id)"
+        @disable="(id) => disableRule(id, false)"
         @delete-file="
-          (type, { id, deleteFile }) => ruleManage(type, id, deleteFile)
+          ({ id, deleteFile }) => deleteRule(id, deleteFile)
         "
-        @apply="(rule) => updateRule(rule.id, rule)"
+        @update="(rule) => updateRule(rule.id, rule)"
       ></ab-edit-rule>
     </div>
   </div>

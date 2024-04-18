@@ -74,7 +74,7 @@
   },
   "homepage": {
     "rule": {
-      "apply": "Apply",
+      "update": "Update",
       "delete": "Delete",
       "delete_hit": "Delete Downloaded Videos(cat't restore)?",
       "disable": "Disable",
