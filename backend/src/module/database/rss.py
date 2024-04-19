@@ -1,6 +1,6 @@
 import logging
 
-from sqlmodel import Session, and_, delete, select
+from sqlmodel import Session, and_, delete, desc, select
 
 from module.models import RSSItem, RSSUpdate
 
@@ -66,8 +66,24 @@ class RSSDatabase:
         self.session.refresh(db_data)
         return True
 
-    def search_id(self, _id: int) -> RSSItem:
+    def search_id(self, _id: int) -> RSSItem | None:
         return self.session.get(RSSItem, _id)
+
+    # 根据url倒序搜索RSSItem
+    def search_url(self, _url: str) -> RSSItem | None:
+        statement = (
+            select(RSSItem)
+            .where(RSSItem.url == _url)
+            .order_by(desc(RSSItem.id))
+            .limit(1)
+        )
+        data = self.session.exec(statement).first()
+        if data is None:
+            logger.warning(f"[Database] Cannot find bangumi url: {_url}.")
+            return None
+        else:
+            logger.debug(f"[Database] Find bangumi url: {_url}.")
+            return data
 
     def search_all(self) -> list[RSSItem]:
         return self.session.exec(select(RSSItem)).all()

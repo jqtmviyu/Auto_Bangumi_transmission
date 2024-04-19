@@ -136,24 +136,22 @@ class RSSEngine(Database):
                 self.torrent.add_all(new_torrents)
 
     def download_bangumi(self, bangumi: Bangumi):
-        with RequestContent() as req:
-            torrents = req.get_torrents(
-                bangumi.rss_link, bangumi.filter.replace(",", "|")
+        # ! 这里有个问题,直接调用下载,torrnets表的downloaded,bangumi_id,rss_id都为空
+        # ! 后面refresh_rss又会重新下载一遍覆盖成正确的
+        # todo 需要获取rss_id,调用refresh_rss
+        try:
+            rss_id = self.rss.search_url(bangumi.rss_link).id
+            self.refresh_rss(DownloadClient(), rss_id)
+            return ResponseModel(
+                status=True,
+                status_code=200,
+                msg_en=f"[Engine] Download {bangumi.official_title} successfully.",
+                msg_zh=f"下载 {bangumi.official_title} 成功。",
             )
-            if torrents:
-                with DownloadClient() as client:
-                    client.add_torrent(torrents, bangumi)
-                    self.torrent.add_all(torrents)
-                    return ResponseModel(
-                        status=True,
-                        status_code=200,
-                        msg_en=f"[Engine] Download {bangumi.official_title} successfully.",
-                        msg_zh=f"下载 {bangumi.official_title} 成功。",
-                    )
-            else:
-                return ResponseModel(
-                    status=False,
-                    status_code=406,
-                    msg_en=f"[Engine] Download {bangumi.official_title} failed.",
-                    msg_zh=f"[Engine] 下载 {bangumi.official_title} 失败。",
-                )
+        except Exception:
+            return ResponseModel(
+                status=False,
+                status_code=406,
+                msg_en=f"[Engine] Download {bangumi.official_title} failed.",
+                msg_zh=f"[Engine] 下载 {bangumi.official_title} 失败。",
+            )

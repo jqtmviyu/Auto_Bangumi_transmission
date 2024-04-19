@@ -23,6 +23,7 @@ async def get_rss():
 @router.post(
     path="/add", response_model=APIResponse, dependencies=[Depends(get_current_user)]
 )
+# 聚合rss
 async def add_rss(rss: RSSItem):
     with RSSEngine() as engine:
         result = engine.add_rss(rss.url, rss.name, rss.aggregate, rss.parser)
@@ -189,6 +190,7 @@ analyser = RSSAnalyser()
 @router.post(
     "/analysis", response_model=Bangumi, dependencies=[Depends(get_current_user)]
 )
+# 非聚合,分析rss
 async def analysis(rss: RSSItem):
     data = analyser.link_to_data(rss)
     if isinstance(data, Bangumi):
@@ -200,6 +202,7 @@ async def analysis(rss: RSSItem):
 @router.post(
     "/collect", response_model=APIResponse, dependencies=[Depends(get_current_user)]
 )
+# 收集,不会添加rss规则,直接下载完
 async def download_collection(data: Bangumi):
     with SeasonCollector() as collector:
         resp = collector.collect_season(data, data.rss_link)
@@ -209,6 +212,7 @@ async def download_collection(data: Bangumi):
 @router.post(
     "/subscribe", response_model=APIResponse, dependencies=[Depends(get_current_user)]
 )
+# 订阅
 async def subscribe(data: Bangumi, rss: RSSItem):
     with SeasonCollector() as collector:
         resp = collector.subscribe_season(data, parser=rss.parser)

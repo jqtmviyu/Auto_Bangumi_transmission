@@ -46,6 +46,7 @@ class SeasonCollector(DownloadClient):
                 )
 
     @staticmethod
+    # 非聚合下载, 单部番剧订阅
     def subscribe_season(data: Bangumi, parser: str = "mikan"):
         with RSSEngine() as engine:
             data.added = True
@@ -56,8 +57,8 @@ class SeasonCollector(DownloadClient):
                 aggregate=False,
                 parser=parser,
             )
-            result = engine.download_bangumi(data)
             engine.bangumi.add(data)
+            result = engine.download_bangumi(data)
             return result
 
 
