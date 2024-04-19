@@ -257,8 +257,8 @@ class TrDownloader:
 
     def get_app_prefs(self):
         # todo 当设置里路径为空时, 获取tr下载地址, 保存到ab
-        # 先暂时返回一个默认的路径
-        return {"save_path": "/downloads"}
+        save_path = self._client.get_session().download_dir
+        return {"save_path": save_path}
 
     def add_category(self, category):
         # tr不需要单独添加BangumiCollection分类
