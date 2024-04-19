@@ -78,7 +78,7 @@ const RSSTableOptions = computed(() => {
     <ab-container :title="$t('rss.title')">
       <NDataTable
         v-bind="RSSTableOptions"
-        @update:checked-row-keys="(e) => (selectedRSS = (e as number[]))"
+        v-model:checked-row-keys="selectedRSS"
       ></NDataTable>
 
       <div v-if="selectedRSS.length > 0">
