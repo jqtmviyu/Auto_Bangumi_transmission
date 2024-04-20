@@ -147,7 +147,7 @@ class DownloadClient(TorrentPath):
             save_path=bangumi.save_path,
             category="Bangumi",
         ):
-            logger.debug(f"[Downloader] Add torrent: {bangumi.official_title}")
+            logger.debug(f"[Downloader] Add torrent Success: {bangumi.official_title}")
             return True
         else:
             logger.debug(f"[Downloader] Torrent added before: {bangumi.official_title}")

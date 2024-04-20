@@ -60,7 +60,7 @@ class TrDownloader:
         self.port = port
         self.username = username
         self.connect(host, port, username, password)
-        logger.debug("[TR] init")
+        logger.debug("[TR] Init")
 
     def parse_host(self, host_str: str):
         regex = re.compile(r"(?:(?:http|https):\/\/)?([\w\d\.-]+:[\d]+)")
@@ -79,10 +79,10 @@ class TrDownloader:
     def auth(self):
         try:
             self._client.get_session()
-            logger.debug("[TR] auth success")
+            logger.debug("[TR] Auth success")
             return True
         except TransmissionError:
-            logger.debug("[TR] auth failed")
+            logger.debug("[TR] Auth failed")
             return False
 
     def connect(self, host: str, port: int, username: str, password: str, retry=3):
@@ -109,25 +109,24 @@ class TrDownloader:
         raise Exception("[TR] Cannot connect to TransmissionServer")
 
     def add_torrent(self, torrent, download_dir: str, labels):
-        logger.debug(
-            f"[TR] add torrent: type: {type(torrent)}, download_dir: {download_dir}"
-            # f"[TR] add torrent ==>  {torrent}"
-        )
+        logger.debug(f"[TR] Download dir: {download_dir}")
+        if len(torrent) < 10:
+            logger.debug(
+                f"[TR] Add torrent error, torrent is too short: {len(torrent)}"
+            )
+            return
         try:
             resp = self._client.add_torrent(
                 torrent=torrent, download_dir=download_dir, labels=labels, paused=False
             )
-            logger.debug(f"[TR] add torrent resp : {resp}")
-            return True
+            logger.debug(f"[TR] Add torrent resp : {resp}")
         except TransmissionError:
-            logger.debug(f"[TR] add torrent {torrent} error")
-            return True
+            logger.debug(f"[TR] Add torrent error: {TransmissionError.message}")
 
     def add_torrents(self, torrent_urls, torrent_files, save_path, category):
         # print(f"[TR] torrent_urls ==>  {torrent_urls}")
         # print(f"[TR] torrent_files ==>  {torrent_files}")
-        # print(f"[TR] type ==>  {type(torrent_files)}")
-        # 虽然写的是torrents但是传过来的可能是lsit,也可能是str
+        # 虽然写的是torrents但是传过来的可能是lsit,也可能是str|bytes
         if isinstance(torrent_urls, str):
             torrent_urls = [torrent_urls]
         if isinstance(torrent_files, bytes):
@@ -247,7 +246,7 @@ class TrDownloader:
         try:
             if len(ids) != 0:
                 self._client.change_torrent(ids, labels=[category])
-                logger.debug(f"[TR] set category [{category}] success")
+                logger.debug(f"[TR] Set category [{category}] success")
         except TransmissionError:
             logger.warning(f"[TR] Category {category} add failed")
 

@@ -100,12 +100,14 @@ class RSSEngine(Database):
         return new_torrents
 
     def match_torrent(self, torrent: Torrent) -> Optional[Bangumi]:
+        # 找到torrent匹配的bangumi表
         matched: Bangumi = self.bangumi.match_torrent(torrent.name)
         if matched:
             if matched.filter == "":
                 return matched
             _filter = matched.filter.replace(",", "|")
             if not re.search(_filter, torrent.name, re.IGNORECASE):
+                # 不被过滤的才返回, 并且修改torrent的bangumi_id
                 torrent.bangumi_id = matched.id
                 return matched
         return None
@@ -120,17 +122,22 @@ class RSSEngine(Database):
         # From RSS Items, get all torrents
         logger.debug(f"[Engine] Get {len(rss_items)} RSS items")
         for rss_item in rss_items:
+            # pull_rss里会进行一次全局过滤,并且只返回新的torrent(url未添加过)
             new_torrents = self.pull_rss(rss_item)
-            # print(f"[Engine] new_torrents ==> {new_torrents}")
+            logger.debug(f"[Engine] Get {len(new_torrents)} new torrents")
             # Get all enabled bangumi data
             for torrent in new_torrents:
                 matched_data = self.match_torrent(torrent)
+                logger.debug(f"[Engine] Torrent name: {torrent.name}")
                 if matched_data:
-                    # print(f"[Engine] torrent ==>  {torrent} ")
-                    # print(f"[Engine] matched_data ==>  {matched_data} ")
+                    logger.debug(f"[Engine] Matched: {matched_data.official_title}")
                     if client.add_torrent(torrent, matched_data):
-                        logger.debug(f"[Engine] Add torrent {torrent.name} to client")
+                        logger.debug(
+                            f"[Engine] Refresh Rss: Add torrent {torrent.name} to client"
+                        )
                     torrent.downloaded = True
+                else:
+                    logger.debug(f"[Engine] No matched: {torrent.name}")
             # Add all torrents to database
             if len(new_torrents) > 0:
                 self.torrent.add_all(new_torrents)

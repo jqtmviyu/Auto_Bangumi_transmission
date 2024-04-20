@@ -22,6 +22,7 @@ class RSSThread(ProgramStatus):
         while not self.stop_event.is_set():
             with DownloadClient() as client, RSSEngine() as engine:
                 # Analyse RSS
+                # 聚合rss分析添加到bangumi表
                 rss_list = engine.rss.search_aggregate()
                 for rss in rss_list:
                     self.analyser.rss_to_data(rss, engine)
