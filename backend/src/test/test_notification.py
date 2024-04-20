@@ -5,7 +5,8 @@ from module.notification import PostNotification
 class TestPostNotification(PostNotification):
     @staticmethod
     def _get_poster(notify: Notification):
-        notify.poster_path = notify.poster_path
+        # mock
+        pass
 
 
 def test_notification():
@@ -19,7 +20,7 @@ def test_notification():
         official_title="番剧名",
         season=1,
         episode=1,
-        poster_path="poster/0fd46fc8.jpg",
+        poster_path="posters/0fd46fc8.jpg",
     )
     with TestPostNotification() as notifier:
         assert notifier.send_msg(info1)
