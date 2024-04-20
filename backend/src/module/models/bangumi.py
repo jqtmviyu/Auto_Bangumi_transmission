@@ -23,7 +23,9 @@ class Bangumi(SQLModel, table=True):
     filter: str = Field(default="720,\\d+-\\d+", alias="filter", title="番剧过滤器")
     rss_link: str = Field(default="", alias="rss_link", title="番剧RSS链接")
     poster_link: Optional[str] = Field(alias="poster_link", title="番剧海报链接")
-    added: bool = Field(default=False, alias="added", title="是否已添加")
+    added: bool = Field(
+        default=False, alias="added", title="是否已添加"
+    )  # 原来标记是否往已qb添加规则的,现已废弃,留着兼容
     rule_name: Optional[str] = Field(alias="rule_name", title="番剧规则名")
     save_path: Optional[str] = Field(alias="save_path", title="番剧保存路径")
     deleted: bool = Field(False, alias="deleted", title="是否已删除")

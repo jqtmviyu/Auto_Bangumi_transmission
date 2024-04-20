@@ -56,7 +56,8 @@ class BangumiDatabase:
         statement = select(Bangumi).where(Bangumi.title_raw == title_raw)
         bangumi = self.session.exec(statement).first()
         bangumi.rss_link = rss_set
-        bangumi.added = False
+        # ? 应该不需要了
+        # bangumi.added = False
         self.session.add(bangumi)
         self.session.commit()
         self.session.refresh(bangumi)

@@ -49,7 +49,8 @@ class SeasonCollector(DownloadClient):
     # 非聚合下载, 单部番剧订阅
     def subscribe_season(data: Bangumi, parser: str = "mikan"):
         with RSSEngine() as engine:
-            data.added = True
+            # ? 应该不需要了
+            # data.added = True
             data.eps_collect = True
             engine.add_rss(
                 rss_link=data.rss_link,
