@@ -28,7 +28,7 @@ class WecomNotification(RequestContent):
         msg = self.gen_message(notify)
         picurl = notify.poster_path
         # Default pic to avoid blank in message. Resolution:1068*455
-        if picurl == "https://mikanime.tv":
+        if picurl == "https://mikanani.me":
             picurl = "https://article.biliimg.com/bfs/article/d8bcd0408bf32594fd82f27de7d2c685829d1b2e.png"
         data = {
             "key": self.token,

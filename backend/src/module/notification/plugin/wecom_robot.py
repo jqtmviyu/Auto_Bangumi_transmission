@@ -37,7 +37,7 @@ class WecomRobotNotification(RequestContent):
                         {
                             "title": title,
                             "description": msg,
-                            "url": "https://mikanime.tv",
+                            "url": "https://mikanani.me",
                             "picurl": picurl,
                         }
                     ]

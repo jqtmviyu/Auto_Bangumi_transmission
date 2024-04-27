@@ -3,7 +3,7 @@ from pathlib import Path
 from module.utils import json_config
 
 DEFAULT_PROVIDER = {
-    "mikan": "https://mikanime.tv/RSS/Search?searchstr=%s",
+    "mikan": "https://mikanani.me/RSS/Search?searchstr=%s",
     "nyaa": "https://nyaa.si/?page=rss&q=%s&c=0_0&f=0",
     "dmhy": "http://dmhy.org/topics/rss/rss.xml?keyword=%s",
 }

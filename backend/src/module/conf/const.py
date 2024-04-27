@@ -19,7 +19,7 @@ DEFAULT_SETTINGS = {
     "rss_parser": {
         "enable": True,
         "type": "mikan",
-        "custom_url": "mikanime.tv",
+        "custom_url": "mikanani.me",
         "token": "",
         "enable_tmdb": False,
         "filter": ["720", "\\d+-\\d+"],
