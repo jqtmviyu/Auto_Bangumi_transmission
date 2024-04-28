@@ -9,8 +9,8 @@ DEFAULT_SETTINGS = {
         "data_version": 4.0,
     },
     "downloader": {
-        "type": "qbittorrent",
-        "host": "127.0.0.1:8080",
+        "type": "transmission",
+        "host": "127.0.0.1:9091",
         "username": "admin",
         "password": "adminadmin",
         "path": "/downloads/Bangumi",
@@ -28,7 +28,7 @@ DEFAULT_SETTINGS = {
     "bangumi_manage": {
         "enable": True,
         "eps_complete": False,
-        "rename_method": "pn",
+        "rename_method": "advance",
         "group_tag": False,
         "remove_bad_torrent": False,
     },
