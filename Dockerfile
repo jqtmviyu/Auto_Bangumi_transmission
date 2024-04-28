@@ -36,7 +36,9 @@ RUN set -ex && \
         /root/.cache \
         /tmp/*
 
-COPY --chmod=755 backend/src/. .
+COPY --chmod=755 webui/dist ./dist
+COPY --chmod=755 backend/src/module ./module
+COPY --chmod=755 backend/src/main.py .
 COPY --chmod=755 entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["tini", "-g", "--", "/entrypoint.sh"]
