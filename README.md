@@ -15,26 +15,33 @@
 
 # 项目说明
 
-## 支持 transmission
+> 支持transmission
+> 企业微信群机器人通知
+> webui小改动
+> qb建议用原版!!!
 
-已测试:
+##### 已测试功能
 
 * mikan 单个rss订阅
 * mikan 聚合rss订阅
 * 下载完成重命名
 * 下载完成企业微信群机器人通知
-* web规则页面微调
+* webui规则页面: 禁用状态也可设置并更新
 
-设置:
+##### 设置不同点
 
 * transmission需要开启rpc账号密码功能
-* 企业微信群机器人使用的话只需设置webhookkey
+* 企业微信群机器人使用只需设置Token(即webhookkey)
 
-名词解释:
+##### 名词解释
 
 * 聚合 RSS: 一条rss里有多部番
 * 订阅: 持续追踪rss更新
 * 收集: 一次性下载, 后续不再追踪rss更新
+
+##### 安装
+
+[docker](https://hub.docker.com/r/jqtmviyu/auto_bangumi_tr)
 
 ---
 
