@@ -30,7 +30,6 @@
 
 ##### 设置不同点
 
-* transmission需要开启rpc账号密码功能
 * 企业微信群机器人使用只需设置Token(即webhookkey)
 
 ##### 名词解释
