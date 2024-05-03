@@ -98,7 +98,7 @@ class Renamer(DownloadClient):
                 )
                 if ep:
                     new_path = self.gen_path(ep, bangumi_name, method=method)
-                    media_path = f"Season {season}/{media_path.split("/", 1)[1]}"
+                    media_path = f"Season {season}" + media_path.split("/", 1)[1]
                     if media_path != f"Season {season}/{new_path}":
                         renamed = self.rename_torrent_file(
                             _hash=_hash, old_path=media_path, new_path=new_path
@@ -131,7 +131,7 @@ class Renamer(DownloadClient):
             )
             if sub:
                 new_path = self.gen_path(sub, bangumi_name, method=method)
-                subtitle_path = f"Season {season}/{subtitle_path.split("/", 1)[1]}"
+                subtitle_path = f"Season {season}" + subtitle_path.split("/", 1)[1]
                 if subtitle_path != f"Season {season}/{new_path}":
                     renamed = self.rename_torrent_file(
                         _hash=_hash, old_path=subtitle_path, new_path=new_path
