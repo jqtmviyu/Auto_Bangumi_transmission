@@ -10,7 +10,7 @@
 * 企业微信群机器人通知
 * webui小改动
 
-==[qb只推荐用原版!!!](https://www.autobangumi.org)==
+===[qb只推荐用原版!!!](https://www.autobangumi.org)===
 
 ## 项目进度
 
