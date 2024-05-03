@@ -217,18 +217,17 @@ class TrDownloader:
             self._client.remove_torrent(ids, delete_data=True)
 
     def torrents_rename_file(self, torrent_hash, old_path, new_path) -> bool:
-        # todo 这里只处理单个种子单个文件的重启命名
         info = self.__get_torrentInfo_with_hash(torrent_hash)
         if info:
-            if info["name"] == new_path:
-                logger.debug("[TR] rename: same Name, neet't work")
-                return True
             try:
-                # todo location是相对于这个种子的, 如果一个种子里有很多文件
-                self._client.rename_torrent_path(
-                    info["id"], location=info["name"], name=new_path
+                # ! location是文件相对于下载目录的相对路径
+                # ! name是文件的文件名, 不包含路径
+                logger.debug(f"[TR] rename: {old_path} >> {new_path}")
+                resp = self._client.rename_torrent_path(
+                    info["id"], location=old_path, name=new_path
                 )
-                logger.debug(f"[TR] rename: {info['name']} >> {new_path}")
+                logger.debug(f"[TR] rename resp: {resp}")
+                logger.debug(f"[TR] rename: {old_path} >> {new_path} Success")
                 return True
             except TransmissionError:
                 return False
@@ -260,7 +259,7 @@ class TrDownloader:
         return {"save_path": save_path}
 
     def add_category(self, category):
-        # tr不需要单独添加BangumiCollection分类
+        # tr不需要单独创建BangumiCollection分类
         pass
 
     def get_torrent_path(self, _hash):

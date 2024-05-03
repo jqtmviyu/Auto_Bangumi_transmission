@@ -98,7 +98,8 @@ class Renamer(DownloadClient):
                 )
                 if ep:
                     new_path = self.gen_path(ep, bangumi_name, method=method)
-                    if media_path != new_path:
+                    media_path = f"Season {season}/{media_path.split("/", 1)[1]}"
+                    if media_path != f"Season {season}/{new_path}":
                         renamed = self.rename_torrent_file(
                             _hash=_hash, old_path=media_path, new_path=new_path
                         )
@@ -130,7 +131,8 @@ class Renamer(DownloadClient):
             )
             if sub:
                 new_path = self.gen_path(sub, bangumi_name, method=method)
-                if subtitle_path != new_path:
+                subtitle_path = f"Season {season}/{subtitle_path.split("/", 1)[1]}"
+                if subtitle_path != f"Season {season}/{new_path}":
                     renamed = self.rename_torrent_file(
                         _hash=_hash, old_path=subtitle_path, new_path=new_path
                     )
@@ -164,6 +166,15 @@ class Renamer(DownloadClient):
             # Rename collection
             elif len(media_list) > 1:
                 logger.info("[Renamer] Start rename collection")
+                # 先修改文件夹为Season X, 再把下载路径Season X去掉
+                if info.name != f"Season {season}":
+                    self.rename_torrent_file(
+                        _hash=info.hash, old_path=info.name, new_path=f"Season {season}"
+                    )
+                    self.move_torrent(
+                        hashes=info.hash,
+                        location=info.save_path.replace(f"/Season {season}", ""),
+                    )
                 self.rename_collection(media_list=media_list, **kwargs)
                 if len(subtitle_list) > 0:
                     self.rename_subtitles(subtitle_list=subtitle_list, **kwargs)

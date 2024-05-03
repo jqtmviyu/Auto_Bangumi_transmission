@@ -135,7 +135,7 @@ class RSSEngine(Database):
                         logger.debug(
                             f"[Engine] Refresh Rss: Add torrent {torrent.name} to client"
                         )
-                    torrent.downloaded = True
+                        torrent.downloaded = True
                 else:
                     logger.debug(f"[Engine] No matched: {torrent.name}")
             # Add all torrents to database
