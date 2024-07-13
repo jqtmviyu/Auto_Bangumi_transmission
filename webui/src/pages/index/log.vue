@@ -89,7 +89,7 @@ onDeactivated(() => {
                 :style="{ color: typeColor(i.type) }"
               >
                 <div flex="~ col items-center gap-10" whitespace-nowrap>
-                  <div text="center">{{ i.type }}</div>
+                  <!-- <div text="center">{{ i.type }}</div> -->
                   <div>{{ i.date }}</div>
                 </div>
 
