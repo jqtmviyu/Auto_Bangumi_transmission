@@ -217,7 +217,4 @@ dev-dist
 # test file
 test.*
 test_*
-
-**/打包
-**/打包.zip
 **/launch.json
