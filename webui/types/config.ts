@@ -51,7 +51,7 @@ export interface Config {
     enable: boolean;
     api_key: string;
     api_base: string;
-    model: 'gpt-3.5-turbo';
+    model: string;
     // azure
     api_type: 'openai' | 'azure';
     api_version?: string;

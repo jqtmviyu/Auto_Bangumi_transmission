@@ -39,7 +39,7 @@ const sharedItems: SettingItem<ExperimentalOpenAI>[] = [
     type: 'input',
     prop: {
       type: 'url',
-      placeholder: 'OpenAI API Base URL',
+      placeholder: 'e.g: https://api.openai.com',
     },
   },
 ];
@@ -48,9 +48,10 @@ const openAIItems: SettingItem<ExperimentalOpenAI>[] = [
   {
     configKey: 'model',
     label: () => t('config.experimental_openai_set.model'),
-    type: 'select',
+    type: 'input',
     prop: {
-      items: openAIModels,
+      type: 'text',
+      placeholder: 'eg: gpt-3.5-turbo',
     },
   },
 ];
