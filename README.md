@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.autobangumi.org">官方网站</a> | <a href="https://www.autobangumi.org/deploy/quick-start.html">快速开始</a> | <a href="https://github.com/jqtmviyu/AutoBangumi_TR">github仓库</a> | <a href="https://hub.docker.com/r/jqtmviyu/auto_bangumi_tr">dockerhub仓库</a> | <a href="https://t.me/autobangumi">TG 群组</a>
+  <a href="https://www.autobangumi.org">官方网站</a> | <a href="https://www.autobangumi.org/deploy/quick-start.html">快速开始</a> | <a href="https://github.com/jqtmviyu/Auto_Bangumi_TR">github仓库</a> | <a href="https://hub.docker.com/r/jqtmviyu/auto_bangumi_tr">dockerhub仓库</a> | <a href="https://t.me/autobangumi">TG 群组</a>
 </p>
 
 #### 与 ***estrellaxd/Auto_Bangumi*** 的区别
