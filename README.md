@@ -46,6 +46,7 @@
 - [x] 下载完成企业微信群机器人通知
 - [x] webui规则页面: 禁用状态也可设置并更新
 - [x] 合集下载重命名
+- [x] 开放自定义第三方openaiapi,实侧`grog`的`llama3-70b-8192`模型可以兼容
 
 #### 已知问题
 
@@ -61,7 +62,7 @@
 
 * 下载路径必须包含`番剧名/Season X`
 
-* 自己下载的种子添加`label:Bangumi`后就能被自动重命名
+* 自己下载的种子添加`label`=`Bangumi`后就能被自动重命名
 
 * 多季合集, 即父文件夹内有多个子文件夹, 暂不支持
 
@@ -71,7 +72,7 @@
 
 * openwrt: 直接安装`luci-app-transmission`
 * 其他平台: 自行寻找教程
-* RPC `授权验证`需要开启
+* RPC `授权验证`需要开启,并设置用户名和密码
 * 如果是在openwrt上安装,记得更改`配置文件目录`,默认temp重启会丢失进度
 * 企业微信群机器人使用只需设置`Token`(即`webhookkey`)
 
@@ -83,76 +84,9 @@
 
 * 创建文件夹 `config`, `data`
 
-* 在`config`文件夹下创建`config.yml`文件, 内容如下(修改`host`, `username`, `password`)
-
-<details>
-<summary>点击展开</summary>
-<pre><code>
-{
-    "program": {
-        "rss_time": 900,
-        "rename_time": 600,
-        "webui_port": 7892
-    },
-    "downloader": {
-        "host": "192.168.0.1:9091",
-        "username": "your_tr_rpc_username",
-        "password": "your_tr_rpc_password",
-        "path": "your_tr_download_path",
-        "ssl": false,
-        "type": "transmission"
-    },
-    "rss_parser": {
-        "enable": true,
-        "filter": [
-            "720",
-            "\\d+-\\d",
-            "合集"
-        ],
-        "language": "zh"
-    },
-    "bangumi_manage": {
-        "enable": true,
-        "eps_complete": false,
-        "rename_method": "advance",
-        "group_tag": false,
-        "remove_bad_torrent": false
-    },
-    "log": {
-        "debug_enable": false
-    },
-    "proxy": {
-        "enable": false,
-        "type": "http",
-        "host": "127.0.0.1",
-        "port": 7890,
-        "username": "",
-        "password": ""
-    },
-    "notification": {
-        "enable": false,
-        "type": "telegram",
-        "token": "",
-        "chat_id": ""
-    },
-    "experimental_openai": {
-        "enable": false,
-        "api_key": "",
-        "api_base": "https://api.openai.com/v1",
-        "api_type": "openai",
-        "api_version": "2023-05-15",
-        "model": "gpt-3.5-turbo",
-        "deployment_id": ""
-    }
-}
-</code></pre>
-</details>
-
 * 新建`docker-compose.yml`文件, 内容如下:
 
-<details>
-<summary>点击展开</summary>
-<pre><code>
+```yaml
 services:
   AutoBangumi:
     image: "jqtmviyu/auto_bangumi_tr:latest"
@@ -170,16 +104,18 @@ services:
       - PGID=0  # use `id` cmd to get true arg
       - PUID=0
       - UMASK=022
-</code></pre>
-</details>
+      # - AB_DOWNLOADER_HOST=192.168.0.1:9091
+      # - AB_DOWNLOADER_USERNAME=admin
+      # - AB_DOWNLOADER_PASSWORD=admin
+```
 
 * 启动容器 `docker-compose up -d`
 
-##### 源码运行
+* webui启动地址 `http://localhost:7892`, 默认用户名密码为`admin/admin`
 
-* 后端为python3, 路径为`backend/src`
-* 前端为vite+vue3, 路径为`webui`, 须打包`dist`
-* 需创建`config`, `data`文件夹放在`src`下
+* 需要在设置页面更改`下载器路径`,`用户名`和`密码`
+
+* 后续使用参考 <a href="https://www.autobangumi.org">官方网站</a>
 
 #### 名词解释
 
