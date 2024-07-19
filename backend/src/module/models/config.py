@@ -59,7 +59,7 @@ class RSSParser(BaseModel):
 class BangumiManage(BaseModel):
     enable: bool = Field(True, description="Enable bangumi manage")
     eps_complete: bool = Field(False, description="Enable eps complete")
-    rename_method: str = Field("pn", description="Rename method")
+    rename_method: str = Field("advance", description="Rename method")
     group_tag: bool = Field(False, description="Enable group tag")
     remove_bad_torrent: bool = Field(False, description="Remove bad torrent")
 
@@ -128,7 +128,7 @@ class ExperimentalOpenAI(BaseModel):
 
 class Config(BaseModel):
     program: Program = Program()
-    downloader: Union[QbDownloader, TrDownloader] = QbDownloader()
+    downloader: Union[QbDownloader, TrDownloader] = TrDownloader()
     rss_parser: RSSParser = RSSParser()
     bangumi_manage: BangumiManage = BangumiManage()
     log: Log = Log()
