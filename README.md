@@ -46,7 +46,7 @@
 - [x] 下载完成企业微信群机器人通知
 - [x] webui规则页面: 禁用状态也可设置并更新
 - [x] 合集下载重命名
-- [x] 开放自定义第三方openaiapi,实侧`grog`的`llama3-70b-8192`模型可以兼容
+- [x] 开放自定义第三方openaiapi,实测`grog`的`llama3-70b-8192`模型可以兼容
 
 #### 已知问题
 
@@ -122,3 +122,13 @@ services:
 * 聚合 RSS: 一条rss里有多部番
 * 订阅: 持续追踪rss更新
 * 收集: 一次性下载, 后续不再追踪rss更新
+
+##### 屏蔽迅雷和pcdn用户
+
+* [qBittorrent-ClientBlocker](https://github.com/Simple-Tracker/qBittorrent-ClientBlocker) : 会遇到已经停止播种的种子被重新开启, 作者暂无修复计划 [具体看](https://github.com/Simple-Tracker/qBittorrent-ClientBlocker/issues/95)
+* [peerbanhelper](https://github.com/PBH-BTN/PeerBanHelper): 
+  * `v5.x`同样会开启已经停止播种的种子, 作者暂无修复计划 [具体看](https://github.com/PBH-BTN/PeerBanHelper/issues/285)
+  * `v4.4.1` 偶尔也会遇到,但似乎没那么严重. 但无法订阅[BTN-Collected-Rules](https://github.com/PBH-BTN/BTN-Collected-Rules/blob/main/combine/all.txt): `all.txt`, 原因是为新版加入注释
+* [jqtmviyu/BTN-Collected-Rules](https://github.com/jqtmviyu/BTN-Collected-Rules):
+  * 定时运行shell脚本, 用防火墙屏蔽下载器, 有白名单/黑名单模式
+  * github action 转化 peerbanhelper 作者的 `all.txt` 规则为transmission版本, 定时更新订阅.
