@@ -107,6 +107,13 @@ services:
       # - AB_DOWNLOADER_HOST=192.168.0.1:9091
       # - AB_DOWNLOADER_USERNAME=admin
       # - AB_DOWNLOADER_PASSWORD=admin
+      # 建议使用环境变量,而不是内置的代理设置,内置的经常连接失败
+      - http_proxy=http://172.17.0.1:7890
+      - https_proxy=http://172.17.0.1:7890
+      - no_proxy="localhost,127.0.0.0/8,192.168.0.0/16"
+      - HTTP_PROXY=http://172.17.0.1:7890
+      - HTTPS_PROXY=http://172.17.0.1:7890
+      - NO_PROXY="localhost,127.0.0.0/8,192.168.0.0/16"
 ```
 
 * 启动容器 `docker-compose up -d`
